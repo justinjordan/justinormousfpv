@@ -1,24 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { LogoWithSocial } from "./components/LogoWithSocial";
+import { VideoBackground } from "./components/VideoBackground";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <VideoBackground>
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "50vw",
+            maxWidth: "800px",
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <LogoWithSocial />
+        </div>
+      </VideoBackground>
     </div>
   );
 }
