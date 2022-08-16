@@ -6,7 +6,7 @@ export const LogoWithSocial: React.FC = () => {
     <div className="max-w-full max-h-full">
       <div>
         <img
-          className="pointer-events-none select-none m-h-full w-60 lg:w-[50rem] h-auto"
+          className="pointer-events-none select-none m-h-full w-60 md:w-[20rem] lg:w-[30rem] lg:w-[40rem] xl:w-[50rem] h-auto"
           src="/logo-with-text.svg"
           alt="logo"
         />
