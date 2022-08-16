@@ -3,7 +3,7 @@ import { FaTiktok } from "react-icons/fa";
 
 export const LogoWithSocial: React.FC = () => {
   return (
-    <div className="max-w-full max-h-full w-fit">
+    <div className="flex flex-col max-w-full max-h-full w-fit">
       <img
         className="pointer-events-none select-none m-h-full w-60 md:w-[20rem] lg:w-[30rem] lg:w-[40rem] xl:w-[50rem] h-auto"
         src="/logo-with-text.svg"

@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <VideoBackground>
         <div className="flex h-full">
-          <div className="m-auto">
+          <div className="m-auto max-w-[90vw] max-h-[90vh]">
             <LogoWithSocial />
           </div>
         </div>
