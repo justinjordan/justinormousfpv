@@ -3,23 +3,22 @@ import { FaTiktok } from "react-icons/fa";
 
 export const LogoWithSocial: React.FC = () => {
   return (
-    <div>
+    <div className="max-w-full max-h-full">
       <img
-        className="pointer-events-none select-none opacity-80"
+        className="pointer-events-none select-none opacity-80 m-h-full"
+        style={{ width: "50rem", height: "auto" }}
         src="/logo-with-text.svg"
         alt="logo"
-        width="100%"
-        height="auto"
       />
-      <div className="flex gap-10 justify-center">
+      <div className="flex gap-8 justify-center h-14">
         <a href="https://youtube.com/justinormousfpv">
-          <AiFillYoutube size="80px" />
+          <AiFillYoutube size="100%" />
         </a>
         <a href="https://www.instagram.com/justinormousfpv">
-          <AiFillInstagram size="80px" />
+          <AiFillInstagram size="100%" />
         </a>
         <a href="https://www.tiktok.com/@justinormousfpv">
-          <FaTiktok size="80px" />
+          <FaTiktok size="100%" />
         </a>
       </div>
     </div>

@@ -6,17 +6,10 @@ function App() {
   return (
     <div className="App">
       <VideoBackground>
-        <div
-          style={{
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "50vw",
-            maxWidth: "800px",
-          }}
-        >
-          <LogoWithSocial />
+        <div className="flex h-full">
+          <div className="m-auto">
+            <LogoWithSocial />
+          </div>
         </div>
       </VideoBackground>
     </div>

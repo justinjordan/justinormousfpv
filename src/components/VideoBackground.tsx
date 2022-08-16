@@ -1,18 +1,23 @@
-import React, { PropsWithChildren, useEffect, useState } from "react";
+import React, {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import ReactPlayer from "react-player";
 import useDimensions from "react-cool-dimensions";
 import shuffle from "lodash/shuffle";
+import debounce from "lodash/debounce";
 
 const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 const channelId = process.env.REACT_APP_YOUTUBE_CHANNEL_ID;
 
-console.log({ apiKey, channelId });
-
 export const VideoBackground: React.FC<PropsWithChildren> = ({ children }) => {
   const { observe, width, height } = useDimensions();
 
-  const [videos, setVideos] = useState<any[]>([]);
-  const [currentVideo, setCurrentVideo] = useState("_19DH6qjWNA");
+  const [duration, setDuration] = useState(0);
+  const [videos, setVideos] = useState<string[]>(["6FoEdq36gbI"]);
+  const [currentVideo, setCurrentVideo] = useState<string | null>();
 
   const aspectRatio = width / height;
   const standardWidth = 16;
@@ -29,30 +34,55 @@ export const VideoBackground: React.FC<PropsWithChildren> = ({ children }) => {
           height: (width * standardHeight) / standardWidth,
         };
 
-  const handleProgress = (progress: any) => {
-    console.log(progress);
-  };
+  const playNextVideo = useCallback(() => {
+    setVideos((videos) => {
+      const nextVideo = videos.shift();
 
-  const getVideos = async () => {
-    try {
-      const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=rating&maxResults=5`
-      );
+      if (nextVideo) {
+        videos.push(nextVideo);
+        setCurrentVideo(nextVideo);
+      }
 
-      const videos = shuffle((await response.json()).items);
+      return videos;
+    });
+  }, []);
 
-      console.log(videos);
+  const getVideos = useCallback(
+    debounce(async () => {
+      try {
+        const response = await fetch(
+          `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=rating&maxResults=30`
+        );
 
-      setVideos(videos);
-      setCurrentVideo(videos[0].id.videoId);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+        if (!response.ok) {
+          throw new Error("Failed to fetch videos");
+        }
+
+        const videos = shuffle((await response.json()).items);
+
+        setVideos(videos.map((video) => video.id.videoId));
+        setCurrentVideo(videos[0].id.videoId);
+      } catch (error) {
+        console.error("API Error:", error);
+      } finally {
+        playNextVideo();
+      }
+    }, 500),
+    []
+  );
+
+  const handleProgress = useCallback(
+    ({ playedSeconds }: { playedSeconds: number }) => {
+      if (playedSeconds > duration - 25) {
+        playNextVideo();
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     getVideos();
-  }, []);
+  }, [getVideos]);
 
   return (
     <div
@@ -83,6 +113,7 @@ export const VideoBackground: React.FC<PropsWithChildren> = ({ children }) => {
             controls={false}
             width="100%"
             height="100%"
+            onDuration={(duration) => setDuration(duration)}
             onProgress={handleProgress}
           />
         </div>
