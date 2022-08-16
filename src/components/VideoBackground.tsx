@@ -16,7 +16,7 @@ export const VideoBackground: React.FC<PropsWithChildren> = ({ children }) => {
   const { observe, width, height } = useDimensions();
 
   const [duration, setDuration] = useState(0);
-  const [videos, setVideos] = useState<string[]>(["6FoEdq36gbI"]);
+  const [, setVideos] = useState<string[]>(["6FoEdq36gbI"]);
   const [currentVideo, setCurrentVideo] = useState<string | null>();
 
   const aspectRatio = width / height;
@@ -47,6 +47,7 @@ export const VideoBackground: React.FC<PropsWithChildren> = ({ children }) => {
     });
   }, []);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getVideos = useCallback(
     debounce(async () => {
       try {
@@ -77,7 +78,7 @@ export const VideoBackground: React.FC<PropsWithChildren> = ({ children }) => {
         playNextVideo();
       }
     },
-    []
+    [duration, playNextVideo]
   );
 
   useEffect(() => {
